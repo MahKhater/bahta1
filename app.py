@@ -481,5 +481,5 @@ def results():
     user_answers = session.get('user_answers', {})
     return f"نتيجة الاختبار الخاصة بك. عدد الإجابات المسجلة: {len(user_answers)}"
 
-if _name_ == '_main_':
+if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
