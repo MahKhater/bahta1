@@ -337,24 +337,24 @@ def quiz_step():
     questions = session.get('questions', [])
     current_index = session.get('current_index', 0)
     level = session.get('level', 'متوسط')
-   
-    if not questions:
-        return redirect(url_for('index'))
-       
-    if request.method == 'POST':
-        ans = request.form.get('current_answer')
-        
-        user_answers = session.get('user_answers', {})
-        user_answers[str(current_index)] = {
-            "prompt": questions[current_index]['prompt'],
-            "user_ans": ans if ans else "لم تتم الإجابة",
-            "correct_ans": questions[current_index]['correct_answer'],
-            "is_correct": (ans == questions[current_index]['correct_answer'])
-        }
-        session['user_answers'] = user_answers
-       
-        current_index += 1
-        session['current_index'] = current_index
+    # --- أضف الكود هنا ---
+    if questions and current_index < len(questions):
+        question = questions[current_index]
+        if 'options' not in question:
+            correct_ans = question.get('answer', '').strip()
+            if question.get('id', 0) % 2 == 0:
+                question['options'] = ["صح", "خطأ"]
+            else:
+                import random
+                dummy_pool = ["صفر", "١", "٢", "٦", "١٢", "١٨", "٩٠ ْ", "١٨٠ ْ", "غير ذلك"]
+                opts = [correct_ans]
+                for item in dummy_pool:
+                    if item != correct_ans and len(opts) < 4:
+                        opts.append(item)
+                while len(opts) < 4:
+                    opts.append("خيار إضافي")
+                random.shuffle(opts)
+                question['options'] = opts
        
     if current_index >= len(questions):
         return redirect(url_for('results'))
