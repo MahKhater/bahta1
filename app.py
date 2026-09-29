@@ -260,7 +260,7 @@ def results():
             score += 1
         results_list.append({
             "id": int(idx) + 1,
-            "prompt": data['prompt'],
+          "question": data.get('question', data.get('prompt', 'سؤال بدون متن')),
             "user_ans": data['user_ans'],
             "correct_ans": data['correct_ans'],
             "is_correct": data['is_correct']
