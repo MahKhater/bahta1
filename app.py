@@ -323,7 +323,7 @@ def index():
     pool = QUESTIONS_DB.get(level, QUESTIONS_DB.get("متوسط", []))
    
     if request.method == 'GET' or action == 'select':
-        return render_template_string(QUIZ_TEMPLATE, level=level, num_questions=num_questions)
+        return render_template_string(QUIZ_TEMPLATE, level=level, num_questions=num_questions, question=None)
        
     elif action == 'generate':
         selected_questions = random.sample(pool, min(num_questions, len(pool))) if pool else []
