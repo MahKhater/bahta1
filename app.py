@@ -330,6 +330,16 @@ def index():
         session['total_questions'] = len(selected_questions)
         
         return redirect(url_for('quiz_step'))
+    
+    # لو الطلب GET، هنرجع صفحة بسيطة جداً فيها زرار يبدأ الكويز أو تحويل مباشر
+    return '''
+        <div style="text-align: center; margin-top: 50px; font-family: Tahoma;">
+            <h2>مرحباً بك في منصة سر التفوق التعليمية</h2>
+            <form action="/" method="POST">
+                <button type="submit" style="padding: 10px 20px; font-size: 18px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">ابدأ الاختبار الآن</button>
+            </form>
+        </div>
+    '''
         
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz_step():
