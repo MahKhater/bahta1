@@ -375,15 +375,15 @@ QUIZ_TEMPLATE = """
     <div class="main-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 2px solid #eee; padding-bottom: 10px;">
             <span style="font-size: 14px; color: #555;">المستوى: <strong style="color: #114b3e;">{{ level }}</strong></span>
-            <span style="font-size: 14px; color: #555;">السؤال: <strong style="color: #114b3e;">{{ current_num }} من {{ total_questions }}</strong></span>
+            <p dir="auto"><strong>السؤال {{ current_num }}:</strong> <span dir="auto">{{ question.question }}</span></p>
         </div>
 
-        <h2>اختبار الدرس الأول الشامل</h2>
+        <h2>اختبار الدرس الأول مادة الرياضيات البحتة</h2>
        
         <form method="POST" action="{{ url_for('quiz_step') }}" id="quiz-form">
             <div class="question-box">
                 <span class="badge-type">اختيار من متعدد</span>
-              <p dir="auto"><strong>السؤال {{ current_num }}:</strong> <span dir="auto">{{ question.prompt }}</span></p>
+             <p dir="auto"><strong>السؤال {{ current_num }}:</strong> <span dir="auto">{{ question.question }}</span></p>
                
                 <div class="options-list">
                     {% for opt in question.options %}
