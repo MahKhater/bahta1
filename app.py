@@ -469,14 +469,14 @@ RESULT_TEMPLATE = """
         <h3>تفاصيل الإجابات:</h3>
         <div style="margin-top: 15px;">
             {% for r in results %}
-                <div class="res-item {% if r.is_correct %}correct{% else %}wrong{% endif %}">
-                    <p><strong>سؤال {{ r.id }}:</strong> {{ r.prompt }}</p>
-                    <p style="margin: 5px 0; font-size: 14px;">إجابتك: <span style="font-weight: bold; color: {% if r.is_correct %}#2e7d32{% else %}#c62828{% endif %};">{{ r.user_ans }} {% if r.is_correct %}✅{% else %}❌{% endif %}</span></p>
-                    {% if not r.is_correct %}
-                        <p style="margin: 5px 0; font-size: 14px; color: #2e7d32;">الإجابة الصحيحة هي: <strong>{{ r.correct_ans }}</strong></p>
-                    {% endif %}
-                </div>
-            {% endfor %}
+         <div class="res-item {% if r.is_correct %}correct{% else %}wrong{% endif %}">
+        <p><strong>سؤال {{ loop.index }}:</strong> {{ r.question }}</p>
+        <p style="margin: 5px 0; font-size: 14px;">إجابتك: <span style="font-weight: bold; color: {% if r.is_correct %}#2e7d32{% else %}#c62828{% endif %};">{{ r.user_ans }}</span></p>
+        {% if not r.is_correct %}
+            <p style="margin: 5px 0; font-size: 14px; color: #2e7d32;">الإجابة الصحيحة هي: <strong>{{ r.correct_ans }}</strong></p>
+        {% endif %}
+    </div>
+{% endfor %}
         </div>
 
         <button type="button" class="start-btn print-btn" onclick="window.print()" style="background: #455a64; margin-top: 15px;">🖨️ طباعة النتيجة</button>
