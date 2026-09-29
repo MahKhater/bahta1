@@ -350,7 +350,7 @@ def quiz_step():
     if current_index >= len(questions):
         return redirect(url_for('results'))
 
-   if request.method == 'POST':
+    if request.method == 'POST':
         ans = request.form.get('current_answer')
         
         user_answers = session.get('user_answers', {})
