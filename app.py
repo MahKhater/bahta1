@@ -933,7 +933,7 @@ def run_full_quiz():
     for lvl, count in levels.items():
         print(f"- مستوى ({lvl}): {count} سؤالاً")
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     run_full_quiz()
 
 
