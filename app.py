@@ -4,7 +4,7 @@ from flask import Flask, render_template_string, request, redirect, url_for, ses
 app = Flask(__name__)
 app.secret_key = 'ser_el_tafouk_secret_key' # مفتاح الجلسة لتخزين الأسئلة والإجابات
 
-questions_bd = [
+questions_db = [
     # ==========================================
     # أولاً: المستوى المبتدئ (50 سؤالاً متنوعاً)
     # ==========================================
