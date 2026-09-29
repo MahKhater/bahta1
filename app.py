@@ -331,15 +331,23 @@ def index():
         
         return redirect(url_for('quiz_step'))
     
-    # لو الطلب GET، هنرجع صفحة بسيطة جداً فيها زرار يبدأ الكويز أو تحويل مباشر
-    return '''
-        <div style="text-align: center; margin-top: 50px; font-family: Tahoma;">
-            <h2>مرحباً بك في منصة سر التفوق التعليمية</h2>
-            <form action="/" method="POST">
-                <button type="submit" style="padding: 10px 20px; font-size: 18px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">ابدأ الاختبار الآن</button>
-            </form>
-        </div>
-    '''
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        level = request.form.get('level', 'متوسط')
+        num_questions = int(request.form.get('num_questions', 5))
+        
+        pool = QUESTIONS_DB.get(level, QUESTIONS_DB.get("متوسط", []))
+        selected_questions = random.sample(pool, min(num_questions, len(pool))) if pool else []
+        
+        session['questions'] = selected_questions
+        session['current_index'] = 0
+        session['user_answers'] = {}
+        session['level'] = level
+        session['total_questions'] = len(selected_questions)
+        
+    return redirect(url_for('quiz_step'))
+        
         
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz_step():
