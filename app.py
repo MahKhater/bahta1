@@ -331,7 +331,7 @@ def index():
         
         return redirect(url_for('quiz_step'))
     
- @app.route('/quiz', methods=['GET', 'POST'])
+@app.route('/quiz', methods=['GET', 'POST'])
 def quiz_step():
     questions = session.get('questions', [])
     current_index = session.get('current_index', 0)
