@@ -403,19 +403,18 @@ QUIZ_TEMPLATE = """
         <h2>اختبار الدرس الأول مادة الرياضيات البحتة 2 ثانوي أزهر</h2>
        
         <form method="POST" action="{{ url_for('quiz_step') }}" id="quiz-form">
-            <div class="question-box">
-                <span class="badge-type">اختيار من متعدد</span>
-                <p><strong>سؤال {{ current_num }}:</strong> {{ question.question }}</p>
-               
-                <div class="options-list">
-                    {% for opt in question.options %}
-                        <label class="option-item">
-                            <input type="radio" name="current_answer" value="{{ opt }}" required> {{ opt }}
-                        </label>
-                    {% endfor %}
-                </div>
-                <div class="hint">💡 <em>{{ question.hint }}</em></div>
-            </div>
+           <div class="question-box">
+        <span class="badge-type">اختيار من متعدد</span>
+        <p><strong>السؤال {{ current_num }}:</strong> {{ question.get('question', question.get('text', '')) }}</p>
+
+        <div class="options-list">
+            {% for opt in question.options %}
+            <label class="option-item">
+                <input type="radio" name="current_answer" value="{{ opt }}" required>
+                <span>{{ opt }}</span>
+            </label>
+            {% endfor %}
+        </div>
            
             <button type="submit" class="start-btn">السؤال التالي ←</button>
         </form>
