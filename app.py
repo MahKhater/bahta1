@@ -378,10 +378,10 @@ def quiz_step():
             "correct_ans": questions[current_index]['answer'],
             "is_correct": (ans == questions[current_index]['answer'])
         }
-        session['user_answers'] = user_answers
+ session['user_answers'] = user_answers
         
         # 1. زيادة مؤشر السؤال الانتقالي
-        session['current_index'] = current_index + 1
+ session['current_index'] = current_index + 1
         
         # 2. إرجاع توجيه (مهم جداً لتجنب الخطأ)
         return redirect(url_for('quiz_step'))
