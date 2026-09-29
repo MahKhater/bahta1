@@ -338,9 +338,9 @@ def index():
     num_questions = int(request.form.get('num_questions', 5))
     action = request.form.get('action', 'select')
    
-    pool = [q for q in questions_db if q.get('level') == level]
+    pool = questions_db.get(level, [])
     if not pool:
-        pool = [q for q in questions_db if q.get('level') == "متوسط"]
+        pool = questions_db.get('level_1', [])
    
     if request.method == 'GET' or action == 'select':
         return render_template_string(MAIN_TEMPLATE, level=level, num_questions=num_questions)
