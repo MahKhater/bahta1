@@ -367,7 +367,7 @@ def quiz_step():
 
     # 4. لعرض السؤال الحالي GET إرجاع قالب الصفحة في حالة الـ
     current_q = questions[current_index]
-    return render_template('quiz.html', question=current_q, index=current_index, level=level, current_num=current_index + 1, total_questions=len(questions), num_questions=len(questions))
+    return render_template_string('quiz.html', question=current_q, index=current_index, level=level, current_num=current_index + 1, total_questions=len(questions), num_questions=len(questions))
     
 
 @app.route('/results')
