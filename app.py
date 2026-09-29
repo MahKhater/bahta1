@@ -311,6 +311,7 @@ QUESTIONS_DB = {
         {"id": 99, "question": "أثبت أن قيمة جتا ي تقع دائماً بين -١ و ١ في قانون المحصلة العام.", "answer": "من خصائص الدوال المثلثية الأساسية"},
         {"id": 100, "question": "ما هو الخلاصة الفيزيائية لمبدأ محصلة قوتين متلاقيتين في نقطة؟", "answer": "إمكانية الاستعاضة عن قوتين بقوة واحدة مفردة تحدث نفس الأثر الميكانيكي تماماً"}
     ]
+
 }
 
 @app.route('/', methods=['GET', 'POST'])
@@ -355,6 +356,32 @@ def quiz_step():
                     opts.append("خيار إضافي")
                 random.shuffle(opts)
                 question['options'] = opts
+    # ---------------------
+
+    if not questions:
+        return redirect(url_for('index'))
+def quiz_step():
+    questions = session.get('questions', [])
+    current_index = session.get('current_index', 0)
+    level = session.get('level', 'متوسط')
+   
+    if not questions:
+        return redirect(url_for('index'))
+       
+    if request.method == 'POST':
+        ans = request.form.get('current_answer')
+        
+        user_answers = session.get('user_answers', {})
+        user_answers[str(current_index)] = {
+            "question": questions[current_index]['question'],
+            "user_ans": ans if ans else "لم تتم الإجابة",
+            "correct_ans": questions[current_index]['answer'],
+            "is_correct": (ans == questions[current_index]['answer'])
+        }
+        session['user_answers'] = user_answers
+       
+        current_index += 1
+        session['current_index'] = current_index
        
     if current_index >= len(questions):
         return redirect(url_for('results'))
@@ -365,7 +392,7 @@ def quiz_step():
         QUIZ_TEMPLATE,
         level=level,
         question=current_question,
-        current_num=current_index + 1,
+       current_num=current_index + 1,
         total_questions=len(questions),
         num_questions=len(questions)
     )
@@ -431,8 +458,8 @@ MAIN_TEMPLATE = """
         <h2>صمّم امتحانك</h2>
         <div class="subtitle">اختبر معلوماتك الآن بكل سهولة ⏱️</div>
        
-    <form method="POST" action="{{ url_for('index') }}">
-    <input type="hidden" name="action" value="generate">
+        <form method="POST">
+            <input type="hidden" name="action" value="generate">
             <div class="section-title">اختيار مستوى الصعوبة</div>
             <div class="levels-container">
                 <label class="level-btn {% if level == 'مبتدئ' %}active{% endif %}">
@@ -502,7 +529,7 @@ QUIZ_TEMPLATE = """
             <span style="font-size: 14px; color: #555;">السؤال: <strong style="color: #114b3e;">{{ current_num }} من {{ total_questions }}</strong></span>
         </div>
 
-        <h2>اختبار الدرس الاول مادة الرياضيات البحتة 2 ثانوي ازهر</h2>
+        <h2>اختبار الدرس الأول مادة الرياضيات البحتة 2 ثانوي أزهر</h2>
        
         <form method="POST" action="{{ url_for('quiz_step') }}" id="quiz-form">
             <div class="question-box">
@@ -562,7 +589,7 @@ RESULT_TEMPLATE = """
         <div style="margin-top: 15px;">
             {% for r in results %}
                 <div class="res-item {% if r.is_correct %}correct{% else %}wrong{% endif %}">
-                    <p><strong>سؤال {{ r.id }}:</strong> {{ r.prompt }}</p>
+                    <p><strong>سؤال {{ r.id }}:</strong> {{ r.question }}</p>
                     <p style="margin: 5px 0; font-size: 14px;">إجابتك: <span style="font-weight: bold; color: {% if r.is_correct %}#2e7d32{% else %}#c62828{% endif %};">{{ r.user_ans }} {% if r.is_correct %}✅{% else %}❌{% endif %}</span></p>
                     {% if not r.is_correct %}
                         <p style="margin: 5px 0; font-size: 14px; color: #2e7d32;">الإجابة الصحيحة هي: <strong>{{ r.correct_ans }}</strong></p>
