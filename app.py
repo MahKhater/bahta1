@@ -361,13 +361,13 @@ def quiz_step():
     if not questions:
         return redirect(url_for('index'))
 def quiz_step():
-     questions = session.get('questions', [])
-     current_index = session.get('current_index', 0)
-     level = session.get('level', 'متوسط')
-   
-     if not questions:
-         return redirect(url_for('index'))
-       
+    questions = session.get('questions', [])
+    current_index = session.get('current_index', 0)
+    level = session.get('level', 'متوسط')
+
+    if not questions:
+        return redirect(url_for('index'))
+
     if request.method == 'POST':
         ans = request.form.get('current_answer')
         
@@ -381,19 +381,18 @@ def quiz_step():
         session['user_answers'] = user_answers
         
         # 1. زيادة مؤشر السؤال الانتقالي
- session['current_index'] = current_index + 1
+        session['current_index'] = current_index + 1
         
-        # 2. إرجاع توجيه (مهم جداً لتجنب الخطأ)
+        # 2. إرجاع توجيه
         return redirect(url_for('quiz_step'))
 
     # 3. التحقق مما إذا انتهت الأسئلة
     if current_index >= len(questions):
-        return redirect(url_for('result')) # أو صفحة النتائج لديك
+        return redirect(url_for('result'))
 
-    # 4. إرجاع قالب الصفحة في حالة الـ GET لعرض السؤال الحالي
+    # 4. لعرض السؤال الحالي GET إرجاع قالب الصفحة في حالة الـ
     current_q = questions[current_index]
     return render_template('quiz.html', question=current_q, index=current_index)
-        QUIZ_TEMPLATE,
         level=level,
         question=current_question,
        current_num=current_index + 1,
