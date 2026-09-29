@@ -476,10 +476,37 @@ RESULT_TEMPLATE = """
 </body>
 </html>
 """
+RESULT_TEMPLATE = """
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نتيجة الاختبار</title>
+    <style>
+        body { font-family: 'Tahoma', sans-serif; background-color: #114b3e; color: #333; margin: 0; padding: 20px; direction: rtl; text-align: right; }
+        .main-card { max-width: 600px; margin: auto; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        h2 { text-align: center; color: #114b3e; }
+        .score-box { background: #e8f5e9; color: #114b3e; padding: 15px; border-radius: 10px; text-align: center; font-size: 20px; font-weight: bold; margin-bottom: 20px; }
+        .start-btn { display: block; width: 100%; background: #114b3e; color: white; padding: 14px; text-align: center; border-radius: 12px; font-weight: bold; text-decoration: none; margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <div class="main-card">
+        <h2>نتيجة اختبار الرياضيات البحتة</h2>
+        <div class="score-box">
+            عدد الإجابات المسجلة: {{ total_answered }}
+        </div>
+        <a href="/" class="start-btn">إعادة الاختبار</a>
+    </div>
+</body>
+</html>
+"""
+
 @app.route('/results')
 def results():
     user_answers = session.get('user_answers', {})
-    return f"نتيجة الاختبار الخاصة بك. عدد الإجابات المسجلة: {len(user_answers)}"
+    return render_template_string(RESULT_TEMPLATE, total_answered=len(user_answers))
 
-if __name__ == '__main__':
+if _name_ == '_main_':
     app.run(host='0.0.0.0', port=5000)
