@@ -365,10 +365,10 @@ def quiz_step():
     if current_index >= len(questions):
         return redirect(url_for('results'))
 
-    # 4. لعرض السؤال الحالي GET إرجاع قالب الصفحة في حالة الـ
-     current_question = questions[current_index]
-     current_question.setdefault('options', [
-        current_question.get('correct_answer', 'Answer'),
+    # 4. لعرض السؤال الحالي GET إرجاع قالب الصفحة في حالة الـ 
+current_question = questions[current_index]
+current_question.setdefault('options', [
+current_question.get('correct_answer', 'Answer'),
         'Choice 1',
         'Choice 2',
         'Choice 3'
