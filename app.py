@@ -362,7 +362,7 @@ def quiz_step():
        
     current_question = questions[current_index]
    
-    return render_template_string(
+  return render_template_string(QUIZ_TEMPLATE, level=level, question=current_question, current_num=current_index + 1, total_questions=len(questions), num_questions=len(questions))
 QUIZ_TEMPLATE = """
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
