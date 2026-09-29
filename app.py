@@ -510,11 +510,11 @@ QUIZ_TEMPLATE = """
                 <p><strong>سؤال {{ current_num }}:</strong> {{ question.question }}</p>
                
                 <div class="options-list">
-                    {% for opt in question.options %}
-                        <label class="option-item">
-                            <input type="radio" name="current_answer" value="{{ opt }}" required> {{ opt }}
-                        </label>
-                    {% endfor %}
+            {% for opt in question.choices %}
+    <label class="option-item">
+        <input type="radio" name="current_answer" value="{{ opt }}" required> {{ opt }}
+    </label>
+{% endfor %}
                 </div>
                 <div class="hint">💡 <em>{{ question.hint }}</em></div>
             </div>
