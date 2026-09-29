@@ -361,18 +361,18 @@ def quiz_step():
     if not questions:
         return redirect(url_for('index'))
 def quiz_step():
-    questions = session.get('questions', [])
-    current_index = session.get('current_index', 0)
-    level = session.get('level', 'متوسط')
+     questions = session.get('questions', [])
+     current_index = session.get('current_index', 0)
+     level = session.get('level', 'متوسط')
    
-    if not questions:
-        return redirect(url_for('index'))
+     if not questions:
+         return redirect(url_for('index'))
        
-  if request.method == 'POST':
-        ans = request.form.get('current_answer')
+     if request.method == 'POST':
+         ans = request.form.get('current_answer')
         
-        user_answers = session.get('user_answers', {})
-        user_answers[str(current_index)] = {
+         user_answers = session.get('user_answers', {})
+         user_answers[str(current_index)] = {
             "question": questions[current_index]['question'],
             "user_ans": ans if ans else "لم تتم الإجابة",
             "correct_ans": questions[current_index]['answer'],
