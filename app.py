@@ -366,11 +366,8 @@ def quiz_step():
         return redirect(url_for('results'))
 
     # 4. لعرض السؤال الحالي GET إرجاع قالب الصفحة في حالة الـ
-  current_q = questions[current_index]
-    if 'choices' not in current_q:
-        current_q['choices'] = [current_q.get('answer', 'خطأ'), 'اختيار آخر 1', 'اختيار آخر 2', 'اختيار آخر 3']
-    
-        return render_template_string(
+        current_q = questions[current_index]; current_q.setdefault('choices', [current_q.get('answer', 'خطأ'), 'اختيار 1', 'اختيار 2', 'اختيار 3'])
+        return render_template_string(QUIZ_TEMPLATE, question=current_q, index=current_index, level=level, current_num=current_index+1, total_questions=len(questions), num_questions=len(questions))
         QUIZ_TEMPLATE, 
         question=current_q, 
         index=current_index, 
