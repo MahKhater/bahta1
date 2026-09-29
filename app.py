@@ -330,53 +330,6 @@ def index():
         session['total_questions'] = len(selected_questions)
         
         return redirect(url_for('quiz_step'))
-    
-@app.route('/quiz', methods=['GET', 'POST'])
-def quiz_step():
-    questions = session.get('questions', [])
-    current_index = session.get('current_index', 0)
-    level = session.get('level', 'متوسط')
-
-    # لو مفيش أسئلة، نجهزلها الأسئلة الافتراضية
-    if not questions:
-        pool = QUESTIONS_DB.get(level, [])
-        session['questions'] = random.sample(pool, min(5, len(pool))) if pool else []
-        session['current_index'] = 0
-        session['user_answers'] = {}
-        session['level'] = level
-        questions = session['questions']
-        current_index = 0
-
-    # لو المستخدم بعث إجابة (POST)
-    if request.method == 'POST':
-        ans = request.form.get('current_answer')
-        user_answers = session.get('user_answers', {})
-        
-        if current_index < len(questions):
-            user_answers[str(current_index)] = {
-                "question": questions[current_index]['question'], # تأكد إنها question أو prompt حسب دكشنري الأسئلة عندك
-                "user_ans": ans if ans else "لم تتم الإجابة",
-                "answer": questions[current_index]['answer'],
-                "is_correct": (ans == questions[current_index]['answer'])
-            }
-            session['user_answers'] = user_answers
-
-        current_index += 1
-        session['current_index'] = current_index
-
-    # لو خلصنا الأسئلة نتحول لصفحة النتيجة
-    if current_index >= len(questions):
-        return redirect(url_for('results'))
-
-    # إرجاع السؤال الحالي وعرضه في القالب
-    current_question = questions[current_index]
-    return render_template_string(
-        QUIZ_TEMPLATE, 
-        level=level, 
-        question=current_question, 
-        current_num=current_index + 1, 
-        total_questions=len(questions)
-    )
         
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz_step():
