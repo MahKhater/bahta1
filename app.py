@@ -399,7 +399,7 @@ QUIZ_TEMPLATE = """
         <form method="POST" action="{{ url_for('quiz_step') }}" id="quiz-form">
             <div class="question-box">
                 <span class="badge-type">اختيار من متعدد</span>
-                <p><strong>سؤال {{ current_num }}:</strong> {{ question.prompt }}</p>
+                <p><strong>سؤال {{ current_num }}:</strong> {{ question.question }}</p>
                
                 <div class="options-list">
                     {% for opt in question.options %}
