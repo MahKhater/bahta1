@@ -313,34 +313,13 @@ questions_db = {
     ]
 }
 
-# ==========================================
-# دالة اختبار وتنفيذ بنك الأسئلة بالكامل
-# ==========================================
-def run_full_quiz():
-    print(f"تم تحميل بنك الأسئلة بنجاح! الإجمالي: {len(questions_db)} سؤالاً حقيقياً ومتنوعاً (50 لكل مستوى).\n")
-    
-    # عداد الأسئلة لكل مستوى للتأكد
-    levels = {"مبتدئ": 0, "متوسط": 0, "محترف": 0}
-    for q in questions_db:
-        levels[q['level']] += 1
-    
-    print(f"توزيع الأسئلة الدقيق:")
-    for lvl, count in levels.items():
-        print(f"- مستوى ({lvl}): {count} سؤالاً")
-
-if __name__ == "__main__":
-    run_full_quiz()
-
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
     level = request.form.get('level', 'متوسط')
     num_questions = int(request.form.get('num_questions', 5))
     action = request.form.get('action', 'select')
    
-    pool = questions_db.get(level, [])
-    if not pool:
-        pool = questions_db.get('level_1', [])
+    pool = QUESTIONS_DB.get(level, QUESTIONS_DB.get("متوسط", []))
    
     if request.method == 'GET' or action == 'select':
         return render_template_string(MAIN_TEMPLATE, level=level, num_questions=num_questions)
@@ -367,10 +346,10 @@ def quiz_step():
         
         user_answers = session.get('user_answers', {})
         user_answers[str(current_index)] = {
-            "question": questions[current_index]['question'],
+            "prompt": questions[current_index]['prompt'],
             "user_ans": ans if ans else "لم تتم الإجابة",
-            "correct_ans": questions[current_index]['answer'],
-            "is_correct": (ans == questions[current_index]['answer'])
+            "correct_ans": questions[current_index]['correct_answer'],
+            "is_correct": (ans == questions[current_index]['correct_answer'])
         }
         session['user_answers'] = user_answers
        
@@ -405,7 +384,7 @@ def results():
             score += 1
         results_list.append({
             "id": int(idx) + 1,
-          "question": data.get('question', data.get('prompt', 'سؤال بدون متن')),
+            "prompt": data['prompt'],
             "user_ans": data['user_ans'],
             "correct_ans": data['correct_ans'],
             "is_correct": data['is_correct']
@@ -520,34 +499,23 @@ QUIZ_TEMPLATE = """
     <div class="main-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 2px solid #eee; padding-bottom: 10px;">
             <span style="font-size: 14px; color: #555;">المستوى: <strong style="color: #114b3e;">{{ level }}</strong></span>
-            <p dir="auto"><strong>السؤال {{ current_num }}:</strong> <span dir="auto">{{ question.question }}</span></p>
+            <span style="font-size: 14px; color: #555;">السؤال: <strong style="color: #114b3e;">{{ current_num }} من {{ total_questions }}</strong></span>
         </div>
 
-        <h2>اختبار الدرس الأول مادة الرياضيات البحتة</h2>
+        <h2>اختبار الدرس الاول مادة الرياضيات البحتة 2 ثانوي ازهر</h2>
        
         <form method="POST" action="{{ url_for('quiz_step') }}" id="quiz-form">
             <div class="question-box">
                 <span class="badge-type">اختيار من متعدد</span>
-             <p dir="auto"><strong>السؤال {{ current_num }}:</strong> <span dir="auto">{{ question.question }}</span></p>
+                <p><strong>سؤال {{ current_num }}:</strong> {{ question.prompt }}</p>
                
-               <div class="options-list">
-                {% if question.answer in ['صح', 'خطأ', 'صواب', 'خطا'] %}
-                    <label class="option-item" dir="auto">
-                        <input type="radio" name="current_answer" value="صح" required>
-                        <span dir="auto">صح</span>
-                    </label>
-                    <label class="option-item" dir="auto">
-                        <input type="radio" name="current_answer" value="خطأ" required>
-                        <span dir="auto">خطأ</span>
-                    </label>
-                {% else %}
-                    <!-- خانة إجابة نصية للأسئلة الحسابية أو الاختيارية -->
-                    <div style="margin-top: 10px;">
-                        <input type="text" name="current_answer" placeholder="اكتب إجابتك هنا..." required 
-                               style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; outline: none;">
-                    </div>
-                {% endif %}
-            </div>
+                <div class="options-list">
+                    {% for opt in question.options %}
+                        <label class="option-item">
+                            <input type="radio" name="current_answer" value="{{ opt }}" required> {{ opt }}
+                        </label>
+                    {% endfor %}
+                </div>
                 <div class="hint">💡 <em>{{ question.hint }}</em></div>
             </div>
            
