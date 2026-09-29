@@ -314,25 +314,24 @@ QUESTIONS_DB = {
 
 }
 
-@app.route('/', methods=['GET', 'POST'])
+   @app.route('/', methods=['GET', 'POST'])
 def index():
-    level = request.form.get('level', 'متوسط')
-    num_questions = int(request.form.get('num_questions', 5))
-    action = request.form.get('action', 'select')
-   
-    pool = QUESTIONS_DB.get(level, QUESTIONS_DB.get("متوسط", []))
-   
-    if request.method == 'GET' or action == 'select':
-        return render_template_string(QUIZ_TEMPLATE, level=level, num_questions=num_questions, question=None)
-       
-    elif action == 'generate':
+    if request.method == 'POST':
+        level = request.form.get('level', 'متوسط')
+        num_questions = int(request.form.get('num_questions', 5))
+        
+        pool = QUESTIONS_DB.get(level, QUESTIONS_DB.get("متوسط", []))
         selected_questions = random.sample(pool, min(num_questions, len(pool))) if pool else []
+        
         session['questions'] = selected_questions
-        session['level'] = level
         session['current_index'] = 0
         session['user_answers'] = {}
+        session['level'] = level
+        session['total_questions'] = len(selected_questions)
+        
         return redirect(url_for('quiz_step'))
-
+        
+    return render_template_string(INDEX_TEMPLATE)
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz_step():
     questions = session.get('questions', [])
