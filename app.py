@@ -935,8 +935,7 @@ def run_full_quiz():
 
 if _name_ == "_main_":
     run_full_quiz()
-    ]
-}
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
