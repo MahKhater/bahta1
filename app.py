@@ -338,10 +338,14 @@ def quiz_step():
     questions = session.get('questions', [])
     current_index = session.get('current_index', 0)
     level = session.get('level', 'متوسط')
-   
+
     if not questions:
         return redirect(url_for('index'))
-       
+
+    # التحقق أولاً لو وصلنا لنهاية الأسئلة قبل أي قراءة
+    if current_index >= len(questions):
+        return redirect(url_for('results'))
+
     if request.method == 'POST':
         ans = request.form.get('current_answer')
         
@@ -353,14 +357,16 @@ def quiz_step():
             "is_correct": (ans == questions[current_index]['answer'])
         }
         session['user_answers'] = user_answers
-       
+
         current_index += 1
         session['current_index'] = current_index
-       
-    if current_index >= len(questions):
-        return redirect(url_for('results'))
-    current_question = questions[current_index]
-    return render_template_string(QUIZ_TEMPLATE, level=level, question=current_question, current_num=current_index + 1, total_questions=len(questions), num_questions=len(questions))
+
+        # التحقق مرة أخرى بعد زيادة المؤشر
+        if current_index >= len(questions):
+            return redirect(url_for('results'))
+
+        current_question = questions[current_index]
+        return render_template_string(QUIZ_TEMPLATE, level=level, question=current_question, current_num=current_index + 1, total_questions=len(questions), num_questions=len(questions))
 QUIZ_TEMPLATE = """
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
