@@ -329,7 +329,7 @@ def index():
         session['level'] = level
         session['total_questions'] = len(selected_questions)
         
-     return redirect(url_for('quiz_step'))
+    return redirect(url_for('quiz_step'))
     
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz_step():
