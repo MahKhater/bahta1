@@ -530,14 +530,24 @@ QUIZ_TEMPLATE = """
                 <span class="badge-type">اختيار من متعدد</span>
              <p dir="auto"><strong>السؤال {{ current_num }}:</strong> <span dir="auto">{{ question.question }}</span></p>
                
-                <div class="options-list">
-                    {% for opt in question.options %}
-<label class="option-item" dir="auto">
-    <input type="radio" name="current_answer" value="{{ opt }}" required> 
-    <span dir="auto">{{ opt }}</span>
-</label>
-                    {% endfor %}
-                </div>
+               <div class="options-list">
+                {% if question.answer in ['صح', 'خطأ', 'صواب', 'خطا'] %}
+                    <label class="option-item" dir="auto">
+                        <input type="radio" name="current_answer" value="صح" required>
+                        <span dir="auto">صح</span>
+                    </label>
+                    <label class="option-item" dir="auto">
+                        <input type="radio" name="current_answer" value="خطأ" required>
+                        <span dir="auto">خطأ</span>
+                    </label>
+                {% else %}
+                    <!-- خانة إجابة نصية للأسئلة الحسابية أو الاختيارية -->
+                    <div style="margin-top: 10px;">
+                        <input type="text" name="current_answer" placeholder="اكتب إجابتك هنا..." required 
+                               style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; outline: none;">
+                    </div>
+                {% endif %}
+            </div>
                 <div class="hint">💡 <em>{{ question.hint }}</em></div>
             </div>
            
