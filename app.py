@@ -373,13 +373,12 @@ current_question.get('correct_answer', 'Answer'),
         'Choice 2',
         'Choice 3'
     ])
-   
-    return render_template_string(
-        QUIZ_TEMPLATE,
-        level=level,
-        question=current_question,
-        current_num=current_index + 1,
-        total_questions=len(questions)
+return render_template_string(
+QUIZ_TEMPLATE,
+level=level,
+question=current_question,
+current_num=current_index + 1,
+total_questions=len(questions)
     )
 @app.route('/results')
 def results():
