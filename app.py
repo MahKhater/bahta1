@@ -943,7 +943,7 @@ def index():
     num_questions = int(request.form.get('num_questions', 5))
     action = request.form.get('action', 'select')
    
-    pool = QUESTIONS_DB.get(level, QUESTIONS_DB.get("متوسط", []))
+    pool = questions_bd.get(level, questions_bd.get("متوسط", []))
    
     if request.method == 'GET' or action == 'select':
         return render_template_string(MAIN_TEMPLATE, level=level, num_questions=num_questions)
