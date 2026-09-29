@@ -331,24 +331,6 @@ def index():
         
         return redirect(url_for('quiz_step'))
     
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    if request.method == 'POST':
-        level = request.form.get('level', 'متوسط')
-        num_questions = int(request.form.get('num_questions', 5))
-        
-        pool = QUESTIONS_DB.get(level, QUESTIONS_DB.get("متوسط", []))
-        selected_questions = random.sample(pool, min(num_questions, len(pool))) if pool else []
-        
-        session['questions'] = selected_questions
-        session['current_index'] = 0
-        session['user_answers'] = {}
-        session['level'] = level
-        session['total_questions'] = len(selected_questions)
-        
-    return redirect(url_for('quiz_step'))
-        
-        
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz_step():
     questions = session.get('questions', [])
