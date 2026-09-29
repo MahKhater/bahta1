@@ -4,7 +4,7 @@ from flask import Flask, render_template_string, request, redirect, url_for, ses
 app = Flask(__name__)
 app.secret_key = 'ser_el_tafouk_secret_key' # مفتاح الجلسة لتخزين الأسئلة والإجابات
 
-questions_db = {
+QUESTIONS_DB = {
     "level_1": [
         {"id": 1, "question": "القوة هي تأثير أحد الأجسام الطبيعية على جسم طبيعي آخر بالدفع أو...", "answer": "الجذب / الضغط / التنافر - جميع ما سبق"},
         {"id": 2, "question": "الأجسام الطبيعية تنقسم إلى أجسام جاسئة متماسكة وأجسام...", "answer": "قابلة للتشكل"},
