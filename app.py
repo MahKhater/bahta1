@@ -346,7 +346,6 @@ def quiz_step():
             if question.get('id', 0) % 2 == 0:
                 question['options'] = ["صح", "خطأ"]
             else:
-                import random
                 dummy_pool = ["صفر", "١", "٢", "٦", "١٢", "١٨", "٩٠ ْ", "١٨٠ ْ", "غير ذلك"]
                 opts = [correct_ans]
                 for item in dummy_pool:
@@ -356,7 +355,7 @@ def quiz_step():
                     opts.append("خيار إضافي")
                 random.shuffle(opts)
                 question['options'] = opts
-   @app.route('/quiz', methods=['GET', 'POST'])
+@app.route('/quiz', methods=['GET', 'POST'])
 def quiz_step():
     questions = session.get('questions', [])
     current_index = session.get('current_index', 0)
