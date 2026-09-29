@@ -508,5 +508,5 @@ def results():
     user_answers = session.get('user_answers', {})
     return render_template_string(RESULT_TEMPLATE, total_answered=len(user_answers))
 
-if _name_ == '_main_':
+if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
