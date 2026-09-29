@@ -368,17 +368,17 @@ def quiz_step():
      if not questions:
          return redirect(url_for('index'))
        
-     if request.method == 'POST':
-         ans = request.form.get('current_answer')
+    if request.method == 'POST':
+        ans = request.form.get('current_answer')
         
-         user_answers = session.get('user_answers', {})
-         user_answers[str(current_index)] = {
+        user_answers = session.get('user_answers', {})
+        user_answers[str(current_index)] = {
             "question": questions[current_index]['question'],
             "user_ans": ans if ans else "لم تتم الإجابة",
             "correct_ans": questions[current_index]['answer'],
             "is_correct": (ans == questions[current_index]['answer'])
         }
- session['user_answers'] = user_answers
+        session['user_answers'] = user_answers
         
         # 1. زيادة مؤشر السؤال الانتقالي
  session['current_index'] = current_index + 1
