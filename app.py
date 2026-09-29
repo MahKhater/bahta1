@@ -363,7 +363,7 @@ def quiz_step():
 
     # 3. التحقق مما إذا انتهت الأسئلة
     if current_index >= len(questions):
-        return redirect(url_for('result'))
+        return redirect(url_for('results'))
 
     # 4. لعرض السؤال الحالي GET إرجاع قالب الصفحة في حالة الـ
     current_q = questions[current_index]
