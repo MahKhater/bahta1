@@ -431,8 +431,8 @@ MAIN_TEMPLATE = """
         <h2>صمّم امتحانك</h2>
         <div class="subtitle">اختبر معلوماتك الآن بكل سهولة ⏱️</div>
        
-        <form method="POST">
-            <input type="hidden" name="action" value="generate">
+    <form method="POST" action="{{ url_for('index') }}">
+    <input type="hidden" name="action" value="generate">
             <div class="section-title">اختيار مستوى الصعوبة</div>
             <div class="levels-container">
                 <label class="level-btn {% if level == 'مبتدئ' %}active{% endif %}">
