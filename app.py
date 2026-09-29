@@ -333,28 +333,7 @@ def index():
         session['user_answers'] = {}
         return redirect(url_for('quiz_step'))
 
-@app.route('/quiz', methods=['GET', 'POST'])
-def quiz_step():
-    questions = session.get('questions', [])
-    current_index = session.get('current_index', 0)
-    level = session.get('level', 'متوسط')
-    # --- أضف الكود هنا ---
-    if questions and current_index < len(questions):
-        question = questions[current_index]
-        if 'options' not in question:
-            correct_ans = question.get('answer', '').strip()
-            if question.get('id', 0) % 2 == 0:
-                question['options'] = ["صح", "خطأ"]
-            else:
-                dummy_pool = ["صفر", "١", "٢", "٦", "١٢", "١٨", "٩٠ ْ", "١٨٠ ْ", "غير ذلك"]
-                opts = [correct_ans]
-                for item in dummy_pool:
-                    if item != correct_ans and len(opts) < 4:
-                        opts.append(item)
-                while len(opts) < 4:
-                    opts.append("خيار إضافي")
-                random.shuffle(opts)
-                question['options'] = opts
+
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz_step():
     questions = session.get('questions', [])
