@@ -330,8 +330,18 @@ def index():
         session['total_questions'] = len(selected_questions)
         
         return redirect(url_for('quiz_step'))
+    
+    # لو دخل GET لأول مرة، هنجهز له سيشن افتراضية ونحوله على الأسئلة فوراً
+    pool = QUESTIONS_DB.get("متوسط", [])
+    selected_questions = random.sample(pool, min(5, len(pool))) if pool else []
+    session['questions'] = selected_questions
+    session['current_index'] = 0
+    session['user_answers'] = {}
+    session['level'] = "متوسط"
+    session['total_questions'] = len(selected_questions)
+    
+    return redirect(url_for('quiz_step'))
         
-    return render_template_string(INDEX_TEMPLATE)
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz_step():
     questions = session.get('questions', [])
