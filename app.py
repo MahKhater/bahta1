@@ -338,13 +338,7 @@ def quiz_step():
     level = session.get('level', 'متوسط')
 
     if not questions:
-        pool = QUESTIONS_DB.get("متوسط", [])
-        session['questions'] = random.sample(pool, min(5, len(pool))) if pool else []
-        session['current_index'] = 0
-        session['user_answers'] = {}
-        session['level'] = "متوسط"
-        session['total_questions'] = len(session['questions'])
-        questions = session['questions']
+       return redirect(url_for('index'))
 
     # التحقق أولاً لو وصلنا لنهاية الأسئلة قبل أي قراءة
     if current_index >= len(questions):
