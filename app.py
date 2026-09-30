@@ -5,7 +5,7 @@ app = Flask(__name__)
 app.secret_key = 'ser_el_tafouk_secret_key' # مفتاح الجلسة لتخزين الأسئلة والإجابات
 
 QUESTIONS_DB = {
-{
+
     "مبتدئ": [
         {
             "id": 1,
